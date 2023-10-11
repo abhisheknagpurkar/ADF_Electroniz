@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "traininglakehousedfan"
+		},
+		"salesdbsource_connectionString": {
+			"value": ""
+		},
+		"traininglakehouse_accountKey": {
+			"value": ""
+		},
+		"websitetrackinglogs_connectionString": {
+			"value": ""
+		},
+		"httpsource_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/PacktPublishing/Data-Engineering-with-Apache-Spark-Delta-Lake-and-Lakehouse/main/project/prep/iplocation/IP2LOCATION-LITE-DB1.CSV"
+		},
+		"restsource_properties_typeProperties_url": {
+			"value": "http://data.fixer.io/api/"
+		},
+		"traininglakehouse_properties_typeProperties_url": {
+			"value": "https://traininglakehousean.dfs.core.windows.net/"
+		}
+	}
+}
