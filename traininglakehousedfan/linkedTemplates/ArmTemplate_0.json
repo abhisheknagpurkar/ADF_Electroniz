@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'websitetrackinglogs'"
 		},
+		"Curation Spark Cluster_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'Curation Spark Cluster'"
+		},
 		"httpsource_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/PacktPublishing/Data-Engineering-with-Apache-Spark-Delta-Lake-and-Lakehouse/main/project/prep/iplocation/IP2LOCATION-LITE-DB1.CSV"
@@ -30,6 +34,10 @@
 		"traininglakehouse_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://traininglakehousean.dfs.core.windows.net/"
+		},
+		"Curation Spark Cluster_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "1012-183353-ztqf5g38"
 		}
 	},
 	"variables": {
@@ -105,6 +113,24 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('websitetrackinglogs_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Curation Spark Cluster')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-7198085778715027.7.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('Curation Spark Cluster_accessToken')]"
+					},
+					"existingClusterId": "[parameters('Curation Spark Cluster_properties_typeProperties_existingClusterId')]"
 				}
 			},
 			"dependsOn": []
@@ -350,6 +376,121 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/salesdbsource')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/electroniz_curation_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This pipeline will curate data for the sales database, currency conversion, geo-location, and e-commerce website tracking logs by fetching from the bronze layer and saving it in the silver layer.",
+				"activities": [
+					{
+						"name": "Get ADLS Secret",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://trainingkv100an.vault.azure.net/secrets/ADLSKEY/3bc463d7ab044a91b67a60c07d3d5b69?api-version=7.0",
+							"method": "GET",
+							"headers": {},
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://vault.azure.net"
+							}
+						}
+					},
+					{
+						"name": "Run Curation Notebooks",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "Get ADLS Secret",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/aanagpurkar@gmail.com/electroniz_curation_pipeline",
+							"baseParameters": {
+								"STORAGE_ACCOUNT": "@pipeline().parameters.STORAGE_ACCOUNT",
+								"BRONZE_LAYER_NAMESPACE": "@pipeline().parameters.BRONZE_LAYER_NAMESPACE",
+								"SILVER_LAYER_NAMESPACE": "@pipeline().parameters.SILVER_LAYER_NAMESPACE",
+								"STORE_SALES_FOLDER": "@pipeline().parameters.STORE_SALES_FOLDER",
+								"ADLS_FOLDER": "@pipeline().parameters.ADLS_FOLDER",
+								"TABLE_LIST": "@pipeline().parameters.TABLE_LIST",
+								"CURRENCY_LIST": "@pipeline().parameters.CURRENCY_LIST",
+								"CURRENCY_FOLDER": "@pipeline().parameters.CURRENCY_FOLDER",
+								"GEOLOCATION_FOLDER": "@pipeline().parameters.GEOLOCATION_FOLDER",
+								"LOGS_FOLDER": "@pipeline().parameters.LOGS_FOLDER",
+								"ECOMM_FOLDER": "@pipeline().parameters.ECOMM_FOLDER",
+								"ADLS_KEY": "@activity('Get ADLS Secret').output.value"
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "Curation Spark Cluster",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"STORAGE_ACCOUNT": {
+						"type": "string"
+					},
+					"BRONZE_LAYER_NAMESPACE": {
+						"type": "string"
+					},
+					"SILVER_LAYER_NAMESPACE": {
+						"type": "string"
+					},
+					"STORE_SALES_FOLDER": {
+						"type": "string"
+					},
+					"ADLS_FOLDER": {
+						"type": "string"
+					},
+					"TABLE_LIST": {
+						"type": "string"
+					},
+					"CURRENCY_LIST": {
+						"type": "string"
+					},
+					"CURRENCY_FOLDER": {
+						"type": "string"
+					},
+					"GEOLOCATION_FOLDER": {
+						"type": "string"
+					},
+					"LOGS_FOLDER": {
+						"type": "string"
+					},
+					"ECOMM_FOLDER": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Curation Spark Cluster')]"
 			]
 		},
 		{
