@@ -9,7 +9,7 @@
 		"type": "RestResource",
 		"typeProperties": {
 			"relativeUrl": {
-				"value": "41af953bb81c82d764f81b5f/pair/USD/'@{item().currency}'",
+				"value": "41af953bb81c82d764f81b5f/pair/USD/@{item().currency}",
 				"type": "Expression"
 			}
 		},
