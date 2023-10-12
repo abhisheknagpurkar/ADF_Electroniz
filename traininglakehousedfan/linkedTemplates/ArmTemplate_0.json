@@ -360,7 +360,7 @@
 				"description": "This pipeline will ingest data from sales database, currency conversion, geo-location, and ecommerce website tracking",
 				"activities": [
 					{
-						"name": "Get Secret",
+						"name": "Get Secret Currency API",
 						"type": "WebActivity",
 						"dependsOn": [],
 						"policy": {
@@ -386,7 +386,7 @@
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "Get Secret",
+								"activity": "Get Secret Currency API",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -624,7 +624,10 @@
 										{
 											"referenceName": "SalesDelimitedText",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"FileExt": "csv",
+												"FileTime": "@pipeline().TriggerTime"
+											}
 										}
 									]
 								},
