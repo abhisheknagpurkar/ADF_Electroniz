@@ -25,7 +25,7 @@
 		},
 		"restsource_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "http://data.fixer.io/api/"
+			"defaultValue": "https://v6.exchangerate-api.com/v6/"
 		},
 		"traininglakehouse_properties_typeProperties_url": {
 			"type": "string",
@@ -324,7 +324,7 @@
 				"type": "RestResource",
 				"typeProperties": {
 					"relativeUrl": {
-						"value": "convert?access_key=d1493ac944dd784a391aa792d45391ab&from=@{item().Currency}&to=usd",
+						"value": "41af953bb81c82d764f81b5f/pair/USD/'@{item().currency}'",
 						"type": "Expression"
 					}
 				},
@@ -362,6 +362,8 @@
 					{
 						"name": "Get Secret Currency API",
 						"type": "WebActivity",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
