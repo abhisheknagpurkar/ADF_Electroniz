@@ -1262,7 +1262,14 @@
 					{
 						"name": "Cleanup Gold Data",
 						"type": "Delete",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Create Silver Layer Views",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "0.12:00:00",
 							"retry": 0,
