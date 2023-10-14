@@ -309,28 +309,22 @@
 				},
 				"parameters": {
 					"EXT_TAB_FILE_FORMAT": {
-						"type": "string",
-						"defaultValue": "parquetformat"
+						"type": "string"
 					},
 					"EXT_DATA_SOURCE": {
-						"type": "string",
-						"defaultValue": "trainingds"
+						"type": "string"
 					},
 					"EXT_CREDENTIALS": {
-						"type": "string",
-						"defaultValue": "trainingcreds"
+						"type": "string"
 					},
 					"EXT_TAB_LOCATION": {
-						"type": "string",
-						"defaultValue": "https://traininglakehousean.blob.core.windows.net"
+						"type": "string"
 					},
 					"SILVER_LAYER_NAMESPACE": {
-						"type": "string",
-						"defaultValue": "silver"
+						"type": "string"
 					},
 					"GOLD_LAYER_NAMESPACE": {
-						"type": "string",
-						"defaultValue": "gold"
+						"type": "string"
 					}
 				},
 				"annotations": []
