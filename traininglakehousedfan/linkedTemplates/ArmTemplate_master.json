@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'Curation Spark Cluster'"
 		},
+		"Synapse Serverless_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Synapse Serverless'"
+		},
 		"salesdbsource_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'salesdbsource'"
@@ -22,10 +26,6 @@
 		"websitetrackinglogs_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'websitetrackinglogs'"
-		},
-		"Synapse Serverless_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Synapse Serverless'"
 		},
 		"Curation Spark Cluster_properties_typeProperties_existingClusterId": {
 			"type": "string",
@@ -73,6 +73,9 @@
 					"Curation Spark Cluster_accessToken": {
 						"value": "[parameters('Curation Spark Cluster_accessToken')]"
 					},
+					"Synapse Serverless_connectionString": {
+						"value": "[parameters('Synapse Serverless_connectionString')]"
+					},
 					"salesdbsource_connectionString": {
 						"value": "[parameters('salesdbsource_connectionString')]"
 					},
@@ -81,9 +84,6 @@
 					},
 					"websitetrackinglogs_connectionString": {
 						"value": "[parameters('websitetrackinglogs_connectionString')]"
-					},
-					"Synapse Serverless_connectionString": {
-						"value": "[parameters('Synapse Serverless_connectionString')]"
 					},
 					"Curation Spark Cluster_properties_typeProperties_existingClusterId": {
 						"value": "[parameters('Curation Spark Cluster_properties_typeProperties_existingClusterId')]"
