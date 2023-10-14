@@ -589,7 +589,7 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://trainingkv100an.vault.azure.net/secrets/GENSASKEY/b18a136330bc44d892539906b9727163?api-version=7.0",
+							"url": "https://trainingkv100an.vault.azure.net/secrets/GENSASKEY/aaa06d7daa2349449e757adc28adadde?api-version=7.0",
 							"method": "GET",
 							"headers": {},
 							"authentication": {
