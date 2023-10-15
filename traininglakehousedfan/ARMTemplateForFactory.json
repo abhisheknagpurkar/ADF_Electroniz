@@ -29,7 +29,7 @@
 		},
 		"Curation Spark Cluster_properties_typeProperties_existingClusterId": {
 			"type": "string",
-			"defaultValue": "1013-204648-72ghrbbb"
+			"defaultValue": "1015-074403-xznelq1n"
 		},
 		"httpsource_properties_typeProperties_url": {
 			"type": "string",
@@ -1028,6 +1028,198 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/electroniz_master_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This pipeline runs the ingestion, curation, and aggregation pipeline",
+				"activities": [
+					{
+						"name": "Run electroniz_batch_ingestion_pipeline",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "electroniz_batch_ingestion_pipeline",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Run electroniz_curation_pipeline",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Run electroniz_batch_ingestion_pipeline",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "electroniz_curation_pipeline",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"STORAGE_ACCOUNT": {
+									"value": "@pipeline().parameters.STORAGE_ACCOUNT",
+									"type": "Expression"
+								},
+								"BRONZE_LAYER_NAMESPACE": {
+									"value": "@pipeline().parameters.BRONZE_LAYER_NAMESPACE",
+									"type": "Expression"
+								},
+								"SILVER_LAYER_NAMESPACE": {
+									"value": "@pipeline().parameters.SILVER_LAYER_NAMESPACE",
+									"type": "Expression"
+								},
+								"STORE_SALES_FOLDER": {
+									"value": "@pipeline().parameters.STORE_SALES_FOLDER",
+									"type": "Expression"
+								},
+								"ADLS_FOLDER": {
+									"value": "@{formatDateTime(utcnow(),'yyyy')}/@{formatDateTime(utcnow(),'MM')}/@{formatDateTime(utcnow(),'dd')}/@{formatDateTime(utcnow(),'HH')}",
+									"type": "Expression"
+								},
+								"TABLE_LIST": {
+									"value": "@pipeline().parameters.TABLE_LIST",
+									"type": "Expression"
+								},
+								"CURRENCY_LIST": {
+									"value": "@pipeline().parameters.CURRENCY_LIST",
+									"type": "Expression"
+								},
+								"CURRENCY_FOLDER": {
+									"value": "@pipeline().parameters.CURRENCY_FOLDER",
+									"type": "Expression"
+								},
+								"GEOLOCATION_FOLDER": {
+									"value": "@pipeline().parameters.GEOLOCATION_FOLDER",
+									"type": "Expression"
+								},
+								"LOGS_FOLDER": {
+									"value": "@pipeline().parameters.LOGS_FOLDER",
+									"type": "Expression"
+								},
+								"ECOMM_FOLDER": {
+									"value": "@pipeline().parameters.ECOMM_FOLDER",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "Run electroniz_aggregation_pipeline",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Run electroniz_curation_pipeline",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "electroniz_aggregation_pipeline",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"EXT_TAB_FILE_FORMAT": {
+									"value": "@pipeline().parameters.EXT_TAB_FILE_FORMAT",
+									"type": "Expression"
+								},
+								"EXT_DATA_SOURCE": {
+									"value": "@pipeline().parameters.EXT_DATA_SOURCE",
+									"type": "Expression"
+								},
+								"EXT_CREDENTIALS": {
+									"value": "@pipeline().parameters.EXT_CREDENTIALS",
+									"type": "Expression"
+								},
+								"EXT_TAB_LOCATION": {
+									"value": "@pipeline().parameters.EXT_TAB_LOCATION",
+									"type": "Expression"
+								},
+								"SILVER_LAYER_NAMESPACE": {
+									"value": "@pipeline().parameters.SILVER_LAYER_NAMESPACE",
+									"type": "Expression"
+								},
+								"GOLD_LAYER_NAMESPACE": {
+									"value": "@pipeline().parameters.GOLD_LAYER_NAMESPACE",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"STORAGE_ACCOUNT": {
+						"type": "string"
+					},
+					"BRONZE_LAYER_NAMESPACE": {
+						"type": "string"
+					},
+					"STORE_SALES_FOLDER": {
+						"type": "string"
+					},
+					"TABLE_LIST": {
+						"type": "string"
+					},
+					"CURRENCY_LIST": {
+						"type": "string"
+					},
+					"CURRENCY_FOLDER": {
+						"type": "string"
+					},
+					"GEOLOCATION_FOLDER": {
+						"type": "string"
+					},
+					"LOGS_FOLDER": {
+						"type": "string"
+					},
+					"EXT_TAB_FILE_FORMAT": {
+						"type": "string"
+					},
+					"ECOMM_FOLDER": {
+						"type": "string"
+					},
+					"EXT_DATA_SOURCE": {
+						"type": "string"
+					},
+					"EXT_CREDENTIALS": {
+						"type": "string"
+					},
+					"EXT_TAB_LOCATION": {
+						"type": "string"
+					},
+					"SILVER_LAYER_NAMESPACE": {
+						"type": "string"
+					},
+					"GOLD_LAYER_NAMESPACE": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/electroniz_batch_ingestion_pipeline')]",
+				"[concat(variables('factoryId'), '/pipelines/electroniz_curation_pipeline')]",
+				"[concat(variables('factoryId'), '/pipelines/electroniz_aggregation_pipeline')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CurrencyDelimitedText')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1301,7 +1493,7 @@
 				"annotations": [],
 				"type": "AzureDatabricks",
 				"typeProperties": {
-					"domain": "https://adb-762732941899325.5.azuredatabricks.net",
+					"domain": "https://adb-4925683980248757.17.azuredatabricks.net",
 					"accessToken": {
 						"type": "SecureString",
 						"value": "[parameters('Curation Spark Cluster_accessToken')]"

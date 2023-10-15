@@ -21,7 +21,7 @@
 			"value": ""
 		},
 		"Curation Spark Cluster_properties_typeProperties_existingClusterId": {
-			"value": "1013-204648-72ghrbbb"
+			"value": "1015-074403-xznelq1n"
 		},
 		"httpsource_properties_typeProperties_url": {
 			"value": "https://raw.githubusercontent.com/PacktPublishing/Data-Engineering-with-Apache-Spark-Delta-Lake-and-Lakehouse/main/project/prep/iplocation/IP2LOCATION-LITE-DB1.CSV"
