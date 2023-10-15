@@ -29,7 +29,7 @@
 		},
 		"Curation Spark Cluster_properties_typeProperties_existingClusterId": {
 			"type": "string",
-			"defaultValue": "1015-092753-qxjz5ubt"
+			"defaultValue": "1015-110936-6xv9yy3b"
 		},
 		"httpsource_properties_typeProperties_url": {
 			"type": "string",
@@ -1493,7 +1493,7 @@
 				"annotations": [],
 				"type": "AzureDatabricks",
 				"typeProperties": {
-					"domain": "https://adb-4925683980248757.17.azuredatabricks.net",
+					"domain": "https://adb-889926279970789.9.azuredatabricks.net",
 					"accessToken": {
 						"type": "SecureString",
 						"value": "[parameters('Curation Spark Cluster_accessToken')]"
