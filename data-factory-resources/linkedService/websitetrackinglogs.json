@@ -6,7 +6,7 @@
 		"type": "AzureBlobStorage",
 		"typeProperties": {
 			"connectionString": "DefaultEndpointsProtocol=https;AccountName=ecommercetrackingan;EndpointSuffix=core.windows.net;",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEFCODhDNzhELURFNTgtNEYxNC1CQjZGLTMyMkJBMzFFRTA5Ml8zNDk1Mjk1MC05NGU3LTQ2MjQtOWMzYi1jNTcxOGU1MTFmMmIiDQp9"
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDYyQzFEN0EwLUVDMEQtNEM1Qy04RDU4LTU1OTU5NzNBNDI2NV9jZjc1NWM1YS1hNmNiLTQwZGItOTYxZS1lNDQwODk2YTc3ZTciDQp9"
 		}
 	}
 }
