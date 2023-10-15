@@ -1,0 +1,163 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name"
+		},
+		"Curation Spark Cluster": {
+			"type": "string"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/electroniz_curation_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "This pipeline will curate data for the sales database, currency conversion, geo-location, and e-commerce website tracking logs by fetching from the bronze layer and saving it in the silver layer.",
+				"activities": [
+					{
+						"name": "Get ADLS Secret",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://trainingkvan.vault.azure.net/secrets/ADLSKEY/c15b3ea8c1c944b9a57b1708eef8ef1f?api-version=7.0",
+							"method": "GET",
+							"authentication": {
+								"type": "MSI",
+								"resource": "https://vault.azure.net"
+							}
+						}
+					},
+					{
+						"name": "Run Curation Notebooks",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "Get ADLS Secret",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/aanagpurkar@gmail.com/electroniz_curation_pipeline",
+							"baseParameters": {
+								"STORAGE_ACCOUNT": {
+									"value": "@pipeline().parameters.STORAGE_ACCOUNT",
+									"type": "Expression"
+								},
+								"BRONZE_LAYER_NAMESPACE": {
+									"value": "@pipeline().parameters.BRONZE_LAYER_NAMESPACE",
+									"type": "Expression"
+								},
+								"SILVER_LAYER_NAMESPACE": {
+									"value": "@pipeline().parameters.SILVER_LAYER_NAMESPACE",
+									"type": "Expression"
+								},
+								"STORE_SALES_FOLDER": {
+									"value": "@pipeline().parameters.STORE_SALES_FOLDER",
+									"type": "Expression"
+								},
+								"ADLS_FOLDER": {
+									"value": "@pipeline().parameters.ADLS_FOLDER",
+									"type": "Expression"
+								},
+								"TABLE_LIST": {
+									"value": "@pipeline().parameters.TABLE_LIST",
+									"type": "Expression"
+								},
+								"CURRENCY_LIST": {
+									"value": "@pipeline().parameters.CURRENCY_LIST",
+									"type": "Expression"
+								},
+								"CURRENCY_FOLDER": {
+									"value": "@pipeline().parameters.CURRENCY_FOLDER",
+									"type": "Expression"
+								},
+								"GEOLOCATION_FOLDER": {
+									"value": "@pipeline().parameters.GEOLOCATION_FOLDER",
+									"type": "Expression"
+								},
+								"LOGS_FOLDER": {
+									"value": "@pipeline().parameters.LOGS_FOLDER",
+									"type": "Expression"
+								},
+								"ECOMM_FOLDER": {
+									"value": "@pipeline().parameters.ECOMM_FOLDER",
+									"type": "Expression"
+								},
+								"ADLS_KEY": {
+									"value": "@activity('Get ADLS Secret').output.value",
+									"type": "Expression"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "[parameters('Curation Spark Cluster')]",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"parameters": {
+					"STORAGE_ACCOUNT": {
+						"type": "string"
+					},
+					"BRONZE_LAYER_NAMESPACE": {
+						"type": "string"
+					},
+					"SILVER_LAYER_NAMESPACE": {
+						"type": "string"
+					},
+					"STORE_SALES_FOLDER": {
+						"type": "string"
+					},
+					"ADLS_FOLDER": {
+						"type": "string"
+					},
+					"TABLE_LIST": {
+						"type": "string"
+					},
+					"CURRENCY_LIST": {
+						"type": "string"
+					},
+					"CURRENCY_FOLDER": {
+						"type": "string"
+					},
+					"GEOLOCATION_FOLDER": {
+						"type": "string"
+					},
+					"LOGS_FOLDER": {
+						"type": "string"
+					},
+					"ECOMM_FOLDER": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
