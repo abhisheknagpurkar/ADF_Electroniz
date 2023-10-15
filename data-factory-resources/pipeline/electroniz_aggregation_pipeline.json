@@ -16,7 +16,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://trainingkv100an.vault.azure.net/secrets/GENSASKEY/aaa06d7daa2349449e757adc28adadde?api-version=7.0",
+					"url": "https://trainingkvan.vault.azure.net/secrets/GENSASKEY/2e03134ed7a449428df367a44d35fc6e?api-version=7.0",
 					"method": "GET",
 					"authentication": {
 						"type": "MSI",
