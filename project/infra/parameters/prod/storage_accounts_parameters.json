@@ -1,0 +1,23 @@
+{
+   "environment":{
+      "value":"prod"
+   },
+   "project":{
+      "value":"dlakean"
+   },
+   "storageAccountName":{
+      "value":"elzan"
+   },
+   "bronzeLayer":{
+      "value":"bronze"
+   },
+   "silverLayer":{
+      "value":"silver"
+   },
+   "goldLayer":{
+      "value":"gold"
+   },
+   "location":{
+      "value":"eastus"
+   }
+}

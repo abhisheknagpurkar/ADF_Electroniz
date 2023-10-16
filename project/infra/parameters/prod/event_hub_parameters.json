@@ -1,0 +1,30 @@
+{
+   "environment":{
+      "value":"prod"
+   },
+   "project":{
+      "value":"dlakean"
+   },
+   "topicName":{
+      "value":"esalesan"
+   },
+   "subscriptionName":{
+      "value":"esalesevent"
+   },
+    "eventHubNamespace":{
+      "value":"esalesnsan"
+   },
+    "eventHubName":{
+      "value":"esaleshub"
+   },
+    "storageAccountName":{
+      "value":"elzlogsan"
+   },
+    "storageAccountContainerName":{
+      "value":"ecommlogsan"
+   },
+   "location":{
+      "value":"eastus"
+   }
+}
+

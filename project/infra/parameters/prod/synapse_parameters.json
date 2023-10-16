@@ -1,0 +1,24 @@
+{
+   "vaultName":{
+      "value":"deploykvelzan2"
+   },
+   "synapseWorkspaceName":{
+      "value":"elzsynan"
+   },
+    "synapseStorageAccount":{
+      "value":"elzan"
+   },
+    "synapseStorageAccountFilesystem":{
+      "value":"gold"
+   },
+    "adminPasswordsecretName":{
+      "value":"SQLPASSWORD"
+   },
+    "adminLoginUsersecretName":{
+      "value":"SQLUSER"
+   },
+    "vaultResourceGroupName":{
+      "value":"elz_prod_an"
+   }
+}
+

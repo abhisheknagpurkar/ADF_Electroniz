@@ -1,0 +1,14 @@
+{
+   "environment":{
+      "value":"prod"
+   },
+   "project":{
+      "value":"dlakean"
+   },
+   "factoryName":{
+      "value":"elzdfan"
+   },
+   "location":{
+      "value":"eastus"
+   }
+}

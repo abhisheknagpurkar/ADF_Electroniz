@@ -1,0 +1,14 @@
+{
+   "environment":{
+      "value":"prod"
+   },
+   "project":{
+      "value":"dlakean"
+   },
+   "databricksWorkspaceName":{
+      "value":"elzdbwsan"
+   },
+   "location":{
+      "value":"eastus"
+   }
+}
